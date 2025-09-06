@@ -16,8 +16,8 @@ RUN pip install runpod
 RUN pip install ivrit==0.0.6
 RUN pip install jsonpickle
 
-RUN python3 -c 'import faster_whisper; m = faster_whisper.WhisperModel("yoad/yi-whisper-large-v3-ct2")'
 RUN python3 -c 'import pyannote.audio; p = pyannote.audio.Pipeline.from_pretrained("pyannote/speaker-diarization-3.1")'
+RUN python3 -c 'import faster_whisper; m = faster_whisper.WhisperModel("yoad/yi-whisper-large-v3-ct2")'
 
 # Add your file
 ADD infer.py .
