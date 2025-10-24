@@ -1,5 +1,5 @@
 # Include Python
-FROM pytorch/pytorch:2.4.1-cuda12.1-cudnn9-runtime
+FROM pytorch/pytorch:2.8.0-cuda12.9-cudnn9-runtime
 
 # Define your working directory
 WORKDIR /
@@ -12,12 +12,14 @@ RUN apt update
 RUN apt install -y ffmpeg
 
 # Install python packages
+RUN pip install torch torchvision
 RUN pip install runpod
 RUN pip install ivrit==0.1.6
 
-RUN python3 -c 'import faster_whisper; m = faster_whisper.WhisperModel("yoad/yi-whisper-large-v3-ct2")'
-RUN python3 -c 'import pyannote.audio; p = pyannote.audio.Pipeline.from_pretrained("ivrit-ai/pyannote-speaker-diarization-3.1")'
-RUN python3 -c 'from speechbrain.inference.speaker import EncoderClassifier; EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb")'
+# RUN python3 -c 'import pyannote.audio; p = pyannote.audio.Pipeline.from_pretrained("ivrit-ai/pyannote-speaker-diarization-3.1")'
+# RUN python3 -c 'from speechbrain.inference.speaker import EncoderClassifier; EncoderClassifier.from_hparams(source="speechbrain/spkrec-ecapa-voxceleb")'
+RUN python3 -c 'import faster_whisper; m = faster_whisper.WhisperModel("ivrit-ai/yi-whisper-large-v3-ct2")'
+RUN python3 -c 'import faster_whisper; m = faster_whisper.WhisperModel("ivrit-ai/yi-whisper-large-v3-turbo-ct2")'
 
 # Add your file
 ADD infer.py .
